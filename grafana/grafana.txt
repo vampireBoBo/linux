@@ -18,7 +18,7 @@
 	plugin-zabbix-enable
 
 6配置zabbix数据源
-	url:http://192.168.13.188/monitor/api_jsonrpc.php
+	url:http://ip/monitor/api_jsonrpc.php
 	类型：browser
 	账号密码：admin 111111111
 	
