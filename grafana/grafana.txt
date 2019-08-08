@@ -1,0 +1,30 @@
+==== 学习路径：B站grafana的视屏教程======
+
+1安装、yum install https://dl.grafana.com/oss/release/grafana-5.4.2-1.x86_64.rpm
+	默认路径：/usr/sbin/grafana-server
+
+2启动、systemctl start grafana-server
+	访问地址：http://ip:3000
+	初始默认密码为：admin  zabbix    调整后用户为：admin 123456   
+	
+	
+3安装zabbix插件
+	grafana-cli plugins install alexanderzobnin-zabbix-app
+	
+4重启服务
+	systemctl restart grafana-server
+
+5启动zabbix插件
+	plugin-zabbix-enable
+
+6配置zabbix数据源
+	url:http://192.168.13.188/monitor/api_jsonrpc.php
+	类型：browser
+	账号密码：admin 111111111
+	
+7添加饼状图插件
+	grafana-cli plugins install grafana-piechart-panel
+  执行完命令重启grafana-server服务  即可查看到对应的饼状图panel
+
+=======================
+vim /etc/httpd/conf.d/zabbix.conf
