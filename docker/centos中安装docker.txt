@@ -1,0 +1,11 @@
+======docker安装====https://www.cnblogs.com/yufeng218/p/8370670.html
+======docker UI安装====https://www.cnblogs.com/frankdeng/p/9686735.html
+======docker 容器互相访问====https://www.cnblogs.com/shenh/p/9714547.html
+======docker file 构建镜像====https://www.cnblogs.com/panwenbin-logs/p/8007348.html
+							  https://www.cnblogs.com/hanmk/p/8541814.html
+
+https://www.cnblogs.com/yufeng218/p/8370670.html
+
+1、更新yum安装工具为最新版
+	yum -y update
+2、
