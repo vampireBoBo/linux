@@ -1,2 +1,22 @@
 https://www.cnblogs.com/zuidongfeng/p/8032505.html
 
+
+====
+1、启动服务端 【第一个为redis-server的全部路径   第二个为redis.conf的全部路径】
+	/redis-server /redis.conf   
+	
+2、redis默认启动方式类似tomcat的黑窗口启动方式，如果窗口关闭 则服务停止。
+故需要在redis.conf配置文件中 需要开启后台进程启动模式，即修改daemonize属性的值为yes。
+
+3、为了让其他主机可以放问该服务则在redis.conf中将bing 127.0.0.1进行注释掉  并关闭下列的安装模式
+  同时 开启防火墙中的6379端口：
+		firewall-cmd --zone=public --add-port=6379/tcp --permanenet
+		firewall-cmd --reload
+		systemctl restart firewalld
+
+4、进入redis的src启动redis服务，并使用指令ps -ef| grep redis 查看该服务是否启动成功、
+ 启动成功后 ，使用指令/redis-cli以客户端的方式请求 redis-server 请求成功则进入服务的默认的第一数据库。
+ 
+5、java访问redis-server ，需要引入jar包 jedis 然后创建该对象并指定redis-server的ip 和 port  并调用jedis的ping()方法，若返回值为PONG则表示连接成功。 
+  
+ 	
