@@ -1,0 +1,44 @@
+1、在主机创建文件夹 下载并解压
+	tomcat【推荐wget方式下载】 
+	jdk【oracle网址需要登录 麻烦的很 故建议在外部下载 然后复制到该路径下即可】 
+2、在jdk和tomcat同级下创建名称为Dockerfile的文件  文件名区分大小写
+3、文件内容【下面的tomcat8 jdk8即为同级目录下对应的tomcat和jdk】
+	# 基础镜像来自centos
+	FROM centos
+
+	# 在镜像中创建文件
+	RUN mkdir -p /docker_home/local
+
+	#将当前目录下的jdk和tomcat  添加到镜像的指定目录下
+	ADD tomcat8 /docker_home/local/tomcat8
+	ADD jdk1.8 /docker_home/local/jdk1.8
+
+	# 给镜像设置环境变量
+	ENV JAVA_HOME /docker_home/local/jdk1.8/
+	ENV CATALINA_HOME /docker_home/local/tomcat8
+	ENV PATH $PATH:$JAVA_HOME/bin:$TOMCAT_HOME/bin
+
+	#暴露镜像端口
+	EXPOSE 8080
+
+	#启动时 运行tomcat
+	CMD ["/docker_home/local/tomcat8/bin/catalina.sh","run"]
+4、生成镜像【imageName为自己想要创建的镜像名称】
+		在该Dockerfile文件所在的位置，执行命令：docker build -t imageName .
+
+5、创建network  使所有container位于同一网络中便于容器之间的访问
+			docker network ls 【查看当前docker的网络信息】
+			docker network create newNetWorkName 【创建一个名称为newNetWorkName的network】
+6、依靠镜像启动容器
+	docker run --name todContainerName -p todo主机端口:8080 -v todo1 -v TODO1 --network todoNewNetWorkName todoIamgeID  
+	注意：存在多个挂载时  即使用多个-v即可
+		卸载todo的字段 皆需要根据实际情况去确定
+7、外放容器映射的主机端口  方便外部进行访问容器内部的项目
+	firewall-cmd --zone=public --add-port=8080/tcp --permanent
+	firewall-cmd --reload
+	systemctl restart firewalld
+		
+7、外部访问其中的项目
+	===== 主机Ip+容器映射的ip端口
+		
+	

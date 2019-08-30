@@ -8,4 +8,15 @@ https://www.cnblogs.com/yufeng218/p/8370670.html
 
 1、更新yum安装工具为最新版
 	yum -y update
-2、
+2、此处省略  步骤残守上面链接即可
+
+
+=================docker镜像加速===========================
+1、进入 /etc/docker 
+2、查看此处是否有daemon.json 【默认会有key.json】 ,若没有则进行创建
+3、daemon.json的文件内容为：
+	{
+	"registry-mirrors": ["https://508170i4.mirror.aliyuncs.com"]
+ }
+ 
+ 后面为alibaba的加速器 可以用别人的 也可以自行申请 :申请地址：https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors
