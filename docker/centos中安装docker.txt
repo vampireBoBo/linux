@@ -19,4 +19,9 @@ https://www.cnblogs.com/yufeng218/p/8370670.html
 	"registry-mirrors": ["https://508170i4.mirror.aliyuncs.com"]
  }
  
+4、重启配置  重启docker
+ systemctl dadmon-reload
+ systemstl restart docker
+ 
+ 
  后面为alibaba的加速器 可以用别人的 也可以自行申请 :申请地址：https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors
