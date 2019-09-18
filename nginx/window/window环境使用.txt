@@ -1,0 +1,28 @@
+1、安装
+	https://www.cnblogs.com/jiangwangxiang/p/8481661.html
+2、配置
+	========核心配置如下
+	upstream deptserServer{
+		server 192.168.13.141:8080;
+	}
+	
+	server{
+		listen 8089;
+		server_name 127.0.0.1;
+		
+		location / {
+			proxy_pass http://deptserServer;
+			
+			# 下面三个设置  是为了 保证其中某一台服务器down掉之后 可以将请求快速的换到其他服务上  停止给down的服务发送请求信息
+			proxy_connect_timeout       1;
+			proxy_read_timeout          1;
+			proxy_send_timeout          1;
+		}
+	}
+3、注意事项
+	1》server_name 推荐为ip  若为域名  则需要在本机设置其域名对应的ip信息
+		本机域名配置路径：C:\Windows\System32\drivers\etc  调整host文件即可
+	
+	2》upstream 后面的名称 可随意定义 只要保证server中location中proxy_pass反向代理配置的名称与upstream配置的保持一致即可
+	3》当upstream配置多个服务器时 在可以在location中设置每台服务的响应时间，防止某台服务器down掉之后 可以尽快切换到其他服务器上。若无该配置，则当某台服务器down之后，客户在访问服务时则有可能访问到down的服务器导致响应特别慢。
+	4》多个反向代理可以理解为负载均衡的配置 ，若配置了负载均衡，则需配置负载均衡策略，否则负载均衡效果并不理想。
