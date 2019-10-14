@@ -1,0 +1,13 @@
+===docker-compose 单机版的容器编排器
+
+
+===常见指令
+	https://www.cnblogs.com/moxiaoan/p/9299404.html
+
+===作用：
+	使用docker-compose.yml，通过配置的images信息批量创建所需的容器。
+	前提：所需的镜像已经存在
+
+===常用指令
+	docker-compose up -d [创建配置文件中的所有的容器信息]
+	docker-compose up -d containerName [单独创建名称为containerName的容器]
