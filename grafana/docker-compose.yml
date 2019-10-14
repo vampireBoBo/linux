@@ -1,0 +1,37 @@
+version: '2'
+services:
+  grafana-zabbix: 
+    image: grafana/zabbix
+    container_name: grafana-zabbix
+    volumes: 
+     - /data/grafana/grafana.ini:/etc/grafana/grafana.ini
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "2g"
+    ports: 
+      - "3000:3000"
+      
+  apache: 
+    image: docker.io/httpd:2.4 
+    container_name: apache
+    privileged: true
+    links: 
+      - grafana-zabbix:grafana-zabbix
+    volumes: 
+      - /etc/localtime:/etc/localtime:ro
+      - /data/apache/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "2g"
+    depends_on: 
+      - tomcat-wiki
+      - tomcat-managerx
+      - tomcat-manager
+      - tomcat-service
+      - monitor-server
+    ports: 
+      - "80:80" 

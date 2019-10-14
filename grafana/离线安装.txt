@@ -1,0 +1,16 @@
+ 一、赋值rpm安装文件夹到centos中，并进入文件夹目录中执行下面命令
+ yum localinstall grafana-4.4.3-1.x86_64.rpm (yum本地安装)
+ 
+ 二、启动
+ systemctl start grafana-server (开启grafana)
+ 
+ 三、开放3000端口
+	firewall-cmd --zpne=public --list=ports
+	firewall-cmd --zone=public --add-port=3000/tcp  --permanent
+	firewall-cmd --reload
+ 
+ 
+ 四、访问
+	ip:3000/  （回车）
+	
+=======无网环境下 可通过有网环境制造grafana的docker容器，后期可直接将该容器移植到无网环境使用即可。

@@ -18,13 +18,28 @@
 	plugin-zabbix-enable
 
 6配置zabbix数据源
-	url:http://ip/monitor/api_jsonrpc.php
+	url:http://192.168.13.188/monitor/api_jsonrpc.php
 	类型：browser
 	账号密码：admin 111111111
 	
 7添加饼状图插件
 	grafana-cli plugins install grafana-piechart-panel
   执行完命令重启grafana-server服务  即可查看到对应的饼状图panel
+
+8开发免登陆功能
+	https://my.oschina.net/weidedong/blog/759725
+	
+	修改grafana.ini配置文件【
+		[auth.anonymous]
+		# 设置允许匿名
+		enabled = true
+
+		# 设置允许匿名的组织
+		org_name = Main Org.
+
+		# 设置允许匿名的组织角色
+		org_role = Viewer
+	】
 
 =======================
 vim /etc/httpd/conf.d/zabbix.conf

@@ -1,0 +1,42 @@
+https://grafana.com/docs/installation/docker/
+
+docker run -d  --name grafana-zabbix -p 3000:3000 grafana/grafana
+
+===生成具有zabbix插件的grafana容器==================================================================================================	
+	 1、通过root角色进入grafana-zabbix容器内部，否则没有权限修改grafana的配置文件,指令为：
+		docker exec -it --user root garafana-zabbix /bin/bash
+
+	 2、在容器内部 安装zabbix数据源插件，指令为：
+		grafana-cli plugins install alexanderzobnin-zabbix-app
+		
+	 3、zabbix数据源指令安装完毕，退出容器，并重启容器，指令为：
+		exit 
+		docker restart grafana-zabbix
+	 4、若通过3000端口可正常访问grafana，并查看zabbix数据插件已经安装成功后，将该容器升级成镜像，指令为：	
+		docker commit grafana-zabbix grafana/zabbix 
+		[
+			grafana-zabbix:为需要升级为镜像的容器名称，此处为容器id也可以
+			grafana/zabbix:为新的镜像名称，也可通过:号设置镜像的版本号信息。
+		]
+		
+		
+===移植grafana镜像到其他的环境中==================================================================================================		
+	 5、生成镜像的tar，提前进入需要生成tar的路径下，tar包的生成指令为：
+		docker save -o grafana/zabbix.tar grafana/zabbix
+		[
+			grafana/zabbix.tar:生成的tar名称
+			grafana/zabbix：需要打包的镜像名称
+			-o :输出到的文件
+		]
+	
+     6、将生成的tar，通过xshell等工具移动到另外环境下，解压tar包，指令为：
+		docker  load -i grafana/zabbix.tar 
+		[
+			grafana/zabbix.tar:tar包名称
+			-i:指定导入的文件，代替 STDIN。			
+		]
+	7、使用镜像，启动一个容器，指令为：
+		docker run -it --name grafana-zabbix -p 3000:3000 -v /data/grafana/grafana.ini:/etc/grafana/grafana.ini  grafana/zabbix
+		[
+			!!! 前提需求：在宿主机的/data/grafana/grafana.ini 路径下确实存在grafana.ini的配置文件，否则在创建容器时，容器创建成功，但是通过宿主机映射到容器内部的grafana.ini不存在，则将会导致grafana的容器启动失败无法进行正常的访问。
+		]
